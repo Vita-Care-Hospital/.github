@@ -2,12 +2,21 @@
 
 **Book appointments. Chat with an assistant grounded in hospital docs. See how LLM apps are wired in production—not just an API wrapper.**
 
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](projects/hospital-ui/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](projects/hospital-api/)
-[![Qdrant](https://img.shields.io/badge/RAG-Qdrant-DC244C)](projects/chatbot-ai/)
-[![SQLite](https://img.shields.io/badge/Bookings-SQLite-003B57?logo=sqlite&logoColor=white)](projects/hospital-api/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://github.com/Vita-Care-Hospital/hospital-ui)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://github.com/Vita-Care-Hospital/hospital-api)
+[![Qdrant](https://img.shields.io/badge/RAG-Qdrant-DC244C)](https://github.com/Vita-Care-Hospital/chatbot-ai)
+[![SQLite](https://img.shields.io/badge/Bookings-SQLite-003B57?logo=sqlite&logoColor=white)](https://github.com/Vita-Care-Hospital/hospital-api)
 
 Three services · tool-calling agent · RAG over your KB · guardrails for bookings & slot times
+
+## Repositories
+
+| Repo | Role |
+| --- | --- |
+| [**hospital-ui**](https://github.com/Vita-Care-Hospital/hospital-ui) | React + Vite SPA, portfolio capture scripts |
+| [**hospital-api**](https://github.com/Vita-Care-Hospital/hospital-api) | FastAPI booking JSON + SQLite |
+| [**chatbot-ai**](https://github.com/Vita-Care-Hospital/chatbot-ai) | LLM chat, tools, RAG, admin ingest |
+| [**.github**](https://github.com/Vita-Care-Hospital/.github) | Org profile, architecture & design docs |
 
 ---
 
@@ -15,11 +24,11 @@ Three services · tool-calling agent · RAG over your KB · guardrails for booki
 
 Full walkthrough: title slide → home → manual booking → chat (general + RAG + guided book) → admin KB ingest.
 
-<video src="docs/media/vitacare-demo.mp4" controls playsinline width="100%"></video>
+<video src="https://github.com/Vita-Care-Hospital/hospital-ui/raw/main/docs/media/vitacare-demo.mp4" controls playsinline width="100%"></video>
 
-**[▶ Open narrated demo (MP4)](docs/media/vitacare-demo.mp4)** · [Silent WebM](docs/media/vitacare-demo.webm)
+**[▶ Open narrated demo (MP4)](https://github.com/Vita-Care-Hospital/hospital-ui/blob/main/docs/media/vitacare-demo.mp4)** · [Silent WebM](https://github.com/Vita-Care-Hospital/hospital-ui/blob/main/docs/media/vitacare-demo.webm)
 
-Regenerate: `cd projects/hospital-ui` → `npm run capture:portfolio:voice` — see [`docs/media/README.md`](docs/media/README.md).
+Regenerate from [**hospital-ui**](https://github.com/Vita-Care-Hospital/hospital-ui): `npm run capture:portfolio:voice` — see [scripts/README.md](https://github.com/Vita-Care-Hospital/hospital-ui/blob/main/scripts/README.md).
 
 ---
 
@@ -67,34 +76,50 @@ flowchart LR
   API --> DB["SQLite"]
 ```
 
-Diagrams & trade-offs: [`docs/architecture.md`](docs/architecture.md) · [`docs/design-decisions.md`](docs/design-decisions.md) · [FigJam board](https://www.figma.com/board/PB1RG62anB240Bv1Dgu0ii)
+Diagrams & trade-offs: [architecture.md](docs/architecture.md) · [design-decisions.md](docs/design-decisions.md)
 
 ---
 
 ## Run locally
 
+Clone the three app repos (sibling folders), then start Qdrant and each service:
+
 ```powershell
+git clone https://github.com/Vita-Care-Hospital/hospital-ui.git
+git clone https://github.com/Vita-Care-Hospital/hospital-api.git
+git clone https://github.com/Vita-Care-Hospital/chatbot-ai.git
+
 docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant
 
 # Terminal 2 — booking API (:8001)
-cd projects\hospital-api ; .\.venv\Scripts\activate
+cd hospital-api
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
 python -m uvicorn app.main:app --reload --port 8001
 
 # Terminal 3 — chatbot (:8000)
-cd projects\chatbot-ai ; .\.venv\Scripts\activate
+cd ..\chatbot-ai
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
 python -m uvicorn app.main:app --reload --port 8000
 
 # Terminal 4 — UI (:5173)
-cd projects\hospital-ui ; npm run dev
+cd ..\hospital-ui
+npm install
+npm run dev
 ```
 
 Open **http://127.0.0.1:5173** — chat FAB bottom-right.
 
-| Service | README |
+| Service | Repository |
 | --- | --- |
-| UI | [`projects/hospital-ui/README.md`](projects/hospital-ui/README.md) |
-| Booking API | [`projects/hospital-api/README.md`](projects/hospital-api/README.md) |
-| Chat + RAG | [`projects/chatbot-ai/README.md`](projects/chatbot-ai/README.md) |
+| UI | [Vita-Care-Hospital/hospital-ui](https://github.com/Vita-Care-Hospital/hospital-ui) |
+| Booking API | [Vita-Care-Hospital/hospital-api](https://github.com/Vita-Care-Hospital/hospital-api) |
+| Chat + RAG | [Vita-Care-Hospital/chatbot-ai](https://github.com/Vita-Care-Hospital/chatbot-ai) |
 
 ---
 
@@ -106,15 +131,5 @@ Open **http://127.0.0.1:5173** — chat FAB bottom-right.
 - **Idempotent ingest** — re-upload same filename replaces chunks, no duplicates.
 
 ---
-
-## Repo layout
-
-```text
-docs/           architecture, design notes, media, screenshots
-projects/
-  hospital-ui/    React + Vite + capture scripts
-  hospital-api/   FastAPI booking + SQLite
-  chatbot-ai/     FastAPI chat, tools, RAG, tests
-```
 
 Demo-grade, single-machine — useful as a reference for grounded LLM apps and a base for auth, observability, and deployment.
