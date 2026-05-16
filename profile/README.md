@@ -76,6 +76,8 @@ flowchart LR
 
 Diagrams & trade-offs: [architecture.md](docs/architecture.md) · [design-decisions.md](docs/design-decisions.md)
 
+Technical Design Doc: [Vita_Care_Technical_Design.pdf](docs/Vita_Care_Technical_Design.pdf) 
+
 ---
 
 ## Run locally
