@@ -1,7 +1,4 @@
 # Design decisions & trade-offs
-
----
-
 ## 1. Hand-written agent loop vs LangChain “agents”
 
 **Choice:** Keep `run_chat` as an explicit loop (LLM → tools → LLM) and use LangChain only for document loaders, splitting, and Qdrant vector store glue.
