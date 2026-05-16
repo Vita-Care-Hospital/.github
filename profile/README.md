@@ -28,8 +28,6 @@ Full walkthrough: title slide → home → manual booking → chat (general + RA
 
 **[▶ Open narrated demo (MP4)](https://github.com/Vita-Care-Hospital/hospital-ui/blob/main/docs/media/vitacare-demo.mp4)** · [Silent WebM](https://github.com/Vita-Care-Hospital/hospital-ui/blob/main/docs/media/vitacare-demo.webm)
 
-Regenerate from [**hospital-ui**](https://github.com/Vita-Care-Hospital/hospital-ui): `npm run capture:portfolio:voice` — see [scripts/README.md](https://github.com/Vita-Care-Hospital/hospital-ui/blob/main/scripts/README.md).
-
 ---
 
 ## Screenshots

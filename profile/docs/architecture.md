@@ -11,13 +11,7 @@ Six diagrams cover the project end-to-end. Each one isolates a single concern so
 | 5 | Guided booking state machine | State diagram | How does the chatbot UI move between cards and free chat? |
 | 6 | `chatbot-ai` `run_chat` orchestration | Flowchart (TD) | How does the backend interleave LLM calls, guards, and tool dispatch? |
 
-All six live in the **same editable FigJam board**:
-
-**[Open all six diagrams in FigJam →](https://www.figma.com/board/PB1RG62anB240Bv1Dgu0ii)**
-
-The Mermaid blocks below are the **source of truth in Git**. When the architecture changes (for example **diagram 1 — `hospital-api` now uses SQLite**), update the matching FigJam frame: replace the old “in-memory bookings” shape with a **SQLite / `hospital.db`** datastore and relabel the arrow from Hospital API to **SQL read/write (WAL)**. Then paste or re-import the §1 Mermaid from below, or redraw to match.
-
-If the FigJam link expires, recreate the board from these blocks (see **Maintaining the diagrams** at the end of this file).
+The Mermaid blocks below are the **source of truth in Git**. When the architecture changes (for example **`hospital-api` uses SQLite**), update the matching § diagram in this file (see **Maintaining the diagrams** at the end).
 
 ---
 
@@ -155,7 +149,7 @@ sequenceDiagram
 
 ## 4. RAG query path (with three-way fallback)
 
-Hospital-FAQ questions are answered by the `search_hospital_docs` tool, which embeds the query, searches Qdrant, and returns snippets. The diagram shows the happy path; the three-way fallback for empty results is implemented in `chat_service.SYSTEM_PROMPT` and summarised below the diagram (Mermaid's `alt`/`else` blocks aren't preserved by the FigJam renderer, so the branches live in prose instead).
+Hospital-FAQ questions are answered by the `search_hospital_docs` tool, which embeds the query, searches Qdrant, and returns snippets. The diagram shows the happy path; the three-way fallback for empty results is implemented in `chat_service.SYSTEM_PROMPT` and summarised in prose below the diagram.
 
 ```mermaid
 sequenceDiagram
@@ -287,14 +281,4 @@ flowchart TD
 
 ## Maintaining the diagrams
 
-The FigJam board is editable; the Mermaid blocks above are the source of truth in Git. If the FigJam link expires:
-
-1. Open Figma → run **`generate_diagram`** with the corresponding Mermaid block.
-2. For the **runtime architecture** diagram (§1), pass `useArchitectureLayoutCode: "FIGMA_DIAGRAM_2026"`. Its title is rendered automatically from the `name` parameter. **Keep the datastore stack aligned with Git:** the bookings side is **SQLite `hospital.db`**, not in-process memory.
-3. For all other diagrams, leave that flag off and rely on the **in-source title** to make it visible on the board:
-   - **Sequence diagrams**: add a `title <text>` line as the second line of the block (right after `sequenceDiagram`).
-   - **State diagrams and flowcharts**: prepend a YAML frontmatter block — `---\ntitle: <text>\n---` — *before* the `stateDiagram-v2` / `flowchart TD` keyword.
-4. Pass the existing `fileKey` to keep everything on one board.
-5. **Renderer quirks to know** (apply to §3–§6, not §1):
-   - Sequence-diagram `participant Foo as "Display Name"` aliases are silently dropped — choose readable participant IDs directly.
-   - `autonumber`, `alt`/`else`/`end`, `loop`, `Note over`, activation `+`/`-`, `rect`, `box`, and `actor` distinctions are all silently dropped by the FigJam renderer. Either rewrite the diagram to live without them, or generate the base diagram and layer the missing pieces on top via the hybrid `use_figma` workflow.
+Edit the Mermaid blocks in this file when the system changes. Keep titles and labels aligned with the code (for example **SQLite `hospital.db`** on the booking path, not in-process memory). Sequence diagrams use a `title` line after `sequenceDiagram`; state diagrams and flowcharts can use a YAML `title:` frontmatter before the diagram keyword.
