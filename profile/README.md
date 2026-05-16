@@ -121,7 +121,7 @@ Open **http://127.0.0.1:5173** — chat FAB bottom-right.
 
 ---
 
-## Highlights (for reviewers)
+## Highlights
 
 - **Hand-written agent loop** — LangChain only for loaders / split / Qdrant; orchestration stays readable in `chat_service.run_chat`.
 - **Guardrails** — no “booked” without a tool `id`; slot times checked against `list_slots`; malformed tool calls recovered.
