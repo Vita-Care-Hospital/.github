@@ -1,7 +1,5 @@
 # Design decisions & trade-offs
 
-Short answers hiring managers often want: **what you chose, what it cost, and what you would revisit with more time.**
-
 ---
 
 ## 1. Hand-written agent loop vs LangChain “agents”
